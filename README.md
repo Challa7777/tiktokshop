@@ -15,4 +15,11 @@ A chave ClownPay fica no servidor. O navegador chama somente `/api/payments` e `
 - O servidor valida os campos e cria a transação com `source: "api_externa"`, valor em centavos, referência única, cliente e endereço.
 - A tela mostra o QR Code/código PIX e consulta o status da transação pelo endpoint de consulta da ClownPay.
 
-O valor enviado é calculado no servidor: R$ 320,99 por kit, menos o desconto de vendedor de R$ 9,00 por pedido. Ajuste os valores em `server.js` se a oferta mudar e mantenha-os em sincronia com os valores exibidos na página.
+O valor enviado é calculado no servidor: R$ 320,99 por kit, menos o desconto de vendedor de R$ 9,00 por pedido. Ajuste os valores em `lib/clownpay.js` se a oferta mudar e mantenha-os em sincronia com os valores exibidos na página.
+
+## Deploy no Vercel
+
+1. Importe o repositório GitHub no Vercel e selecione o preset **Other**.
+2. Mantenha os arquivos estáticos (`index.html`, `styles.css` e `app.js`) na raiz e não configure um comando para iniciar `server.js` no Vercel.
+3. Cadastre `CLOWNPAY_API_KEY` nas variáveis de ambiente do projeto para Production e Preview. Não envie `.env` ao GitHub.
+4. Faça o deploy. Os endpoints em `api/` são executados como Vercel Functions; `server.js` continua sendo apenas o servidor de desenvolvimento local.
