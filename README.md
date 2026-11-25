@@ -15,17 +15,17 @@ A chave ClownPay fica no servidor. O navegador chama somente `/api/payments` e `
 - O servidor valida os campos e cria a transação com `source: "api_externa"`, valor em centavos, referência única, cliente e endereço.
 - A tela mostra o QR Code/código PIX e consulta o status da transação pelo endpoint de consulta da ClownPay.
 
-O valor enviado é calculado no servidor: R$ 320,99 por kit, menos o desconto de vendedor de R$ 9,00 por pedido. Ajuste os valores em `lib/clownpay.js` se a oferta mudar e mantenha-os em sincronia com os valores exibidos na página.
+O valor enviado é calculado no servidor: R$ 320,99 por kit, menos o desconto de vendedor de R$ 9,00 por pedido. Se a oferta mudar, atualize os valores em `lib/clownpay.js` (servidor local/Vercel) e `cloudflare/clownpay.js` (Worker), mantendo-os em sincronia com a página.
 
-## Deploy no Cloudflare Pages
+## Deploy no Cloudflare Workers
 
-1. No painel Cloudflare, abra **Workers & Pages > Create application > Pages > Connect to Git**.
+1. No painel Cloudflare, abra **Workers & Pages > Create application > Connect to Git**.
 2. Autorize o GitHub e selecione `Challa7777/tiktokshop`, branch `main`.
-3. Use **No framework**, deixe o comando de build vazio e informe `public` como diretório de saída.
-4. Em **Settings > Variables and Secrets**, crie o Secret `CLOWNPAY_API_KEY` nos ambientes Production e Preview.
-5. Salve e faça o deploy. As funções de `/api/payments` e `/api/payment-status` são carregadas do diretório `functions/`.
+3. Use o nome `tiktokshop` e deixe o comando de build vazio. O `wrangler.jsonc` define o Worker e a pasta `public` como assets.
+4. Em **Settings > Variables and Secrets**, crie o Secret `CLOWNPAY_API_KEY` para Production.
+5. Faça o deploy. O Worker em `worker.js` encaminha os assets estáticos e processa as rotas PIX.
 
-O diretório `public/` contém o site estático. `server.js` é usado apenas para desenvolvimento local; no Cloudflare Pages, as rotas de pagamento rodam como Pages Functions. Não envie `.env` ou `.dev.vars` ao GitHub.
+O diretório `public/` contém o site estático. `server.js` é usado apenas para desenvolvimento local. Não envie `.env` ou `.dev.vars` ao GitHub.
 
 ## Deploy no Vercel
 
