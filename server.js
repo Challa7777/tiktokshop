@@ -4,6 +4,7 @@ const http = require('node:http');
 const { createClownPayPayment, getClownPayPaymentStatus } = require('./lib/clownpay');
 
 const ROOT = __dirname;
+const STATIC_ROOT = path.join(ROOT, 'public');
 loadLocalEnv();
 const PORT = Number(process.env.PORT) || 3000;
 const HOST = process.env.HOST || '0.0.0.0';
@@ -126,8 +127,8 @@ function serveStatic(request, response, requestUrl) {
     return sendText(response, 404, 'Não encontrado.');
   }
 
-  const filePath = path.resolve(ROOT, relativePath);
-  const rootPrefix = ROOT.endsWith(path.sep) ? ROOT : `${ROOT}${path.sep}`;
+  const filePath = path.resolve(STATIC_ROOT, relativePath);
+  const rootPrefix = STATIC_ROOT.endsWith(path.sep) ? STATIC_ROOT : `${STATIC_ROOT}${path.sep}`;
   if (!filePath.startsWith(rootPrefix)) return sendText(response, 403, 'Acesso negado.');
 
   let file;
