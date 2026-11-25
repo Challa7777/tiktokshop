@@ -1,0 +1,12 @@
+{
+  "name": "kerastase-pix-checkout",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Página de produto com checkout PIX ClownPay",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}
