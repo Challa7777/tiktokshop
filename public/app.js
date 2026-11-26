@@ -162,7 +162,7 @@ function openPixPaymentScreen(payment) {
   const copyButton = document.querySelector('[data-copy-pix]');
   copyButton.disabled = !qrCode;
   document.querySelector('#pixCode').value = qrCode;
-  document.querySelector('#pixAmount').textContent = formatPrice((payment.amountCents || 31199) / 100);
+  document.querySelector('#pixAmount').textContent = formatPrice((payment.amountCents || 32099) / 100);
   document.querySelector('#pixExpiration').textContent = payment.expiresAt
     ? `Código válido até ${payment.expiresAt}.`
     : 'Pague pelo aplicativo do seu banco para confirmar o pedido.';
@@ -298,8 +298,7 @@ function formatPrice(value) {
 function updateCheckoutSummary() {
   const subtotal = 320.99 * quantity;
   const original = 1122.85 * quantity;
-  const sellerDiscount = 9;
-  const total = Math.max(0, subtotal - sellerDiscount);
+  const total = subtotal;
 
   document.querySelector('#checkoutQuantity').textContent = String(quantity);
   document.querySelector('#checkoutItemCount').textContent = String(quantity);
@@ -361,9 +360,6 @@ addressForm.addEventListener('submit', (event) => {
   addressDisplay.hidden = false;
   createPixPayment(savedCustomer);
 });
-document.querySelector('[data-tiktok-coupon]').addEventListener('click', () => {
-  showToast('Nenhum cupom adicional disponível no momento.');
-});
 document.querySelector('[data-checkout-confirm]').addEventListener('click', () => {
   if (currentPayment) {
     openPixPaymentScreen(currentPayment);
@@ -401,13 +397,6 @@ document.querySelector('.favorite-button').addEventListener('click', (event) => 
   const button = event.currentTarget;
   button.classList.toggle('is-active');
   showToast(button.classList.contains('is-active') ? 'Produto salvo nos favoritos' : 'Produto removido dos favoritos');
-});
-
-document.querySelector('.claim-button').addEventListener('click', (event) => {
-  const button = event.currentTarget;
-  button.classList.add('is-claimed');
-  button.textContent = 'Resgatado ✓';
-  showToast('Cupom de R$ 9 resgatado!');
 });
 
 document.querySelectorAll('.helpful-button').forEach((button) => {

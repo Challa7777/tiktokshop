@@ -15,7 +15,7 @@ A chave ClownPay fica no servidor. O navegador chama somente `/api/payments` e `
 - O servidor valida os campos e cria a transação com `source: "api_externa"`, valor em centavos, referência única, cliente e endereço.
 - A tela mostra o QR Code/código PIX e consulta o status da transação pelo endpoint de consulta da ClownPay.
 
-O valor enviado é calculado no servidor: R$ 320,99 por kit, menos o desconto de vendedor de R$ 9,00 por pedido. Se a oferta mudar, atualize os valores em `lib/clownpay.js` (servidor local/Vercel) e `cloudflare/clownpay.js` (Worker), mantendo-os em sincronia com a página.
+O valor enviado é calculado no servidor por R$ 320,99 por unidade, sem desconto adicional no checkout. Se o preço mudar, atualize `PRODUCT_PRICE_CENTS` em `lib/clownpay.js` (servidor local/Vercel) e `cloudflare/clownpay.js` (Worker), mantendo os valores em sincronia com a página.
 
 ## Deploy no Cloudflare Workers
 

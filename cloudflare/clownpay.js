@@ -1,6 +1,5 @@
 const CLOWNPAY_BASE_URL = 'https://pagamento-processador.org.ua';
 const PRODUCT_PRICE_CENTS = 32099;
-const SELLER_DISCOUNT_CENTS = 900;
 
 function httpError(status, message) {
   const error = new Error(message);
@@ -95,7 +94,7 @@ function validatePaymentRequest(body) {
 
   return {
     quantity,
-    amount: Math.max(100, PRODUCT_PRICE_CENTS * quantity - SELLER_DISCOUNT_CENTS),
+    amount: PRODUCT_PRICE_CENTS * quantity,
     customer,
     address,
   };
