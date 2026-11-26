@@ -19,6 +19,13 @@ function digitsOnly(value) {
   return String(value || '').replace(/\D/g, '');
 }
 
+function brazilianPhoneDigits(value) {
+  const digits = digitsOnly(value);
+  return digits.startsWith('55') && (digits.length === 12 || digits.length === 13)
+    ? digits.slice(2)
+    : digits;
+}
+
 function isValidDocument(document) {
   if (/^(\d)\1+$/.test(document)) return false;
 
@@ -64,13 +71,14 @@ function validatePaymentRequest(body) {
     name: cleanString(customerInput.name, 'nome', 120),
     email: cleanString(customerInput.email, 'e-mail', 254).toLowerCase(),
     document: digitsOnly(customerInput.document),
-    phone: digitsOnly(customerInput.phone),
+    phone: brazilianPhoneDigits(customerInput.phone),
   };
 
+  if (customer.name.split(/\s+/).filter(Boolean).length < 2) throw httpError(400, 'Informe nome e sobrenome do cliente.');
   if (!/^\S+@\S+\.\S+$/.test(customer.email)) throw httpError(400, 'Informe um e-mail válido.');
   if (![11, 14].includes(customer.document.length)) throw httpError(400, 'CPF/CNPJ deve conter 11 ou 14 números.');
   if (!isValidDocument(customer.document)) throw httpError(400, 'CPF/CNPJ inválido. Confira os números informados.');
-  if (customer.phone.length < 10 || customer.phone.length > 13) throw httpError(400, 'Informe um telefone com DDD válido.');
+  if (customer.phone.length < 10 || customer.phone.length > 11) throw httpError(400, 'Informe o telefone com DDD, sem o código do país.');
 
   const address = {
     street: cleanString(addressInput.street, 'endereço', 160),
