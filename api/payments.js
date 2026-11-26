@@ -24,6 +24,9 @@ module.exports = async function paymentsHandler(request, response) {
     return response.status(200).json(result);
   } catch (error) {
     const statusCode = error.statusCode || 502;
-    return response.status(statusCode).json({ message: error.message || 'Não foi possível gerar o PIX.' });
+    return response.status(statusCode).json({
+      message: error.message || 'Não foi possível gerar o PIX.',
+      reference: error.reference || null,
+    });
   }
 };

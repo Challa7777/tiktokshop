@@ -97,7 +97,10 @@ async function createPayment(request, response) {
     return sendJson(response, 200, result);
   } catch (error) {
     const statusCode = error.statusCode || (error.name === 'AbortError' ? 504 : 502);
-    return sendJson(response, statusCode, { message: error.message || 'Não foi possível gerar o PIX.' });
+    return sendJson(response, statusCode, {
+      message: error.message || 'Não foi possível gerar o PIX.',
+      reference: error.reference || null,
+    });
   }
 }
 

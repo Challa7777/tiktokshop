@@ -34,7 +34,10 @@ async function handleCreatePayment(request, env) {
   try {
     return json(await createClownPayPayment(input, env));
   } catch (error) {
-    return json({ message: error.message || 'Não foi possível gerar o PIX.' }, error.status || 502);
+    return json({
+      message: error.message || 'Não foi possível gerar o PIX.',
+      reference: error.reference || null,
+    }, error.status || 502);
   }
 }
 

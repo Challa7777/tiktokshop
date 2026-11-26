@@ -259,7 +259,8 @@ async function createPixPayment(customer) {
     });
     const result = await response.json();
     if (!response.ok || !result.success) {
-      throw new Error(result.message || 'Não foi possível gerar o pagamento PIX.');
+      const reference = result.reference ? ` Referência: ${result.reference}.` : '';
+      throw new Error(`${result.message || 'Não foi possível gerar o pagamento PIX.'}${reference}`);
     }
 
     closeAddressEntryScreen();
